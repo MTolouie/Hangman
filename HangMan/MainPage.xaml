@@ -12,7 +12,7 @@
             <Label
                 FontSize="40"
                 HorizontalOptions="Center"
-                Text="_ _ C _ _"
+                Text="{Binding Spotlight}"
                 VerticalOptions="Center" />
             <Label
                 FontSize="Large"
@@ -22,9 +22,24 @@
                 HorizontalOptions="Center"
                 Text="Reset"
                 WidthRequest="100" />
-                <!--Clicked="Reset_Clicked"-->
+            <!--Clicked="Reset_Clicked"-->
         </VerticalStackLayout>
-
+        <FlexLayout
+            x:Name="LettersContainer"
+            Grid.Row="1"
+            JustifyContent="SpaceEvenly"
+            Wrap="Wrap">
+            <!--BindableLayout.ItemsSource="{Binding Letters}"-->
+            <BindableLayout.ItemTemplate>
+                <DataTemplate>
+                    <Button
+                        HeightRequest="50"
+                        WidthRequest="50" />
+                        <!--Text="{Binding .}"-->
+                        <!--Clicked="Button_Clicked"-->
+                </DataTemplate>
+            </BindableLayout.ItemTemplate>
+        </FlexLayout>
     </Grid>
 
 </ContentPage>
