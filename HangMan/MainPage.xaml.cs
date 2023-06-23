@@ -1,4 +1,5 @@
-﻿using System.Diagnostics;
+﻿using System.Data;
+using System.Diagnostics;
 using HangMan.Models;
 
 namespace HangMan;
@@ -29,10 +30,15 @@ public partial class MainPage : ContentPage
 
     Materials materials = new Materials();
 
+    public int Mistakes { get; set; } = 0;
+
+    public int MaxWrong { get; set; } = 6;
+
     public MainPage()
     {
         InitializeComponent();
         materials.Letters.AddRange("abcdefghijklmnopqrstuvwxyz");
+        materials.CurrentImage = "img0.jpg";
         BindingContext = materials;
         PickWord();
         CalculateWord(Answer, Guessed);
@@ -43,10 +49,10 @@ public partial class MainPage : ContentPage
         Answer = Words[new Random().Next(0, Words.Count)];
     }
 
-    private void CalculateWord(string answer,List<char> guessed)
+    private void CalculateWord(string answer, List<char> guessed)
     {
         var temp = answer.Select(x => (guessed.IndexOf(x) >= 0 ? x : '_'));
-        materials.Spotlight = string.Join(' ',temp);
+        materials.Spotlight = string.Join(' ', temp);
     }
 
     private void Button_Clicked(object sender, EventArgs e)
@@ -66,10 +72,43 @@ public partial class MainPage : ContentPage
         {
             Guessed.Add(letter);
         }
-        if(Answer.IndexOf(letter) >= 0)
+
+        if (Answer.IndexOf(letter) >= 0)
         {
             CalculateWord(Answer, Guessed);
             CheckIfGameWon();
+        }
+        else if(Answer.IndexOf(letter) == -1)
+        {
+            Mistakes++;
+            UpdateStatus();
+            materials.CurrentImage = $"img{Mistakes}.jpg";
+            ChekIfGameLost();
+        }
+
+        
+    }
+
+    private void UpdateStatus()
+    {
+        materials.GameStatus = $"Error {Mistakes} Of {MaxWrong}";
+    }
+
+    private void ChekIfGameLost()
+    {
+        if (Mistakes == MaxWrong)
+        {
+            materials.Message = "You Lost";
+            DisabaleLetters();
+        }
+    }
+
+    private void DisabaleLetters()
+    {
+        foreach (var child in LettersContainer.Children)
+        {
+            var btn = child as Button;
+            btn.IsEnabled = false;
         }
     }
 
@@ -78,6 +117,30 @@ public partial class MainPage : ContentPage
         if (materials.Spotlight.Replace(" ", "") == Answer)
         {
             materials.Message = "You Won";
+            DisabaleLetters();
+        }
+    }
+
+    private void Reset_Clicked(object sender, EventArgs e)
+    {
+        Mistakes = 0;
+        Guessed = new List<char>();
+        materials.CurrentImage = "img0.jpg";
+        materials.Message = "";
+        PickWord();
+        CalculateWord(Answer,Guessed);
+        UpdateStatus();
+        EnableLetters();
+
+
+    }
+
+    private void EnableLetters()
+    {
+        foreach (var child in LettersContainer.Children)
+        {
+            var btn = child as Button;
+            btn.IsEnabled = true;
         }
     }
 }

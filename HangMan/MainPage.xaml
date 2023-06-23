@@ -7,8 +7,8 @@
             <Label
                 FontAttributes="Bold"
                 HorizontalOptions="Center"
-                Text="Error 0 Of 6" />
-            <Image HeightRequest="200" Source="img0.jpg" />
+                Text="{Binding GameStatus}" />
+            <Image HeightRequest="200" Source="{Binding CurrentImage}" />
             <Label
                 FontSize="40"
                 HorizontalOptions="Center"
@@ -21,8 +21,8 @@
             <Button
                 HorizontalOptions="Center"
                 Text="Reset"
+                Clicked="Reset_Clicked"
                 WidthRequest="100" />
-            <!--Clicked="Reset_Clicked"-->
         </VerticalStackLayout>
         <FlexLayout
             x:Name="LettersContainer"
