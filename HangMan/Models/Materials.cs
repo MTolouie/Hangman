@@ -1,5 +1,4 @@
-﻿
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
 
 namespace HangMan.Models;
@@ -7,7 +6,7 @@ namespace HangMan.Models;
 public class Materials : INotifyPropertyChanged
 {
     private string spotlight;
-    private List<char> letters;
+    private List<char> letters = new();
     private string message;
     private string gameStatus;
     private string currentImage;

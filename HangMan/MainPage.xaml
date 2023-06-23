@@ -17,7 +17,7 @@
             <Label
                 FontSize="Large"
                 HorizontalTextAlignment="Center"
-                Text="You Lost !" />
+                Text="{Binding Message}" />
             <Button
                 HorizontalOptions="Center"
                 Text="Reset"
@@ -28,15 +28,15 @@
             x:Name="LettersContainer"
             Grid.Row="1"
             JustifyContent="SpaceEvenly"
+            BindableLayout.ItemsSource="{Binding Letters}"
             Wrap="Wrap">
-            <!--BindableLayout.ItemsSource="{Binding Letters}"-->
             <BindableLayout.ItemTemplate>
                 <DataTemplate>
                     <Button
                         HeightRequest="50"
+                        Text="{Binding .}"
+                        Clicked="Button_Clicked"
                         WidthRequest="50" />
-                        <!--Text="{Binding .}"-->
-                        <!--Clicked="Button_Clicked"-->
                 </DataTemplate>
             </BindableLayout.ItemTemplate>
         </FlexLayout>
